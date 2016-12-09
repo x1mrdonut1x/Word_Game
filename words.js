@@ -2,9 +2,9 @@
 
 var wordsArray = [];
 var score = 0;
-var input = "";
+var input = "Start typing words you see!";
 var speed = 0.5;
-var intensity = 2;
+var intensity = 3;
 var strings = [];
 var n = 0;
 
@@ -13,8 +13,7 @@ function preload() {
 }
 
 function setup(){
-  createCanvas(720,720);
-  
+  createCanvas(displayWidth,720);
   wordsArray[0] = new Word(random(strings));
 }
 
@@ -25,7 +24,7 @@ function draw(){
     wordsArray[i].draw();
     wordsArray[i].update();
   }
-
+  
   drawScore();
   drawInput();
   updateBoard();
@@ -35,13 +34,13 @@ function draw(){
 
 function updateBoard(){
 
-  if ((frameCount / 60) % intensity == 0){
+  if (((frameCount / 60)*10) % (intensity*10) == 0){
     n++;
     wordsArray[n] = new Word(random(strings));
   }
 
-  if (frameCount % 600 == 0){
-    intensity -= 0.2;
+  if (frameCount/60 % 10 == 0){
+    speed += 0.3;
   }
 
 }
@@ -49,12 +48,13 @@ function updateBoard(){
 
 function drawScore(){
     fill(255);
+    textSize(18);
     text("Score: " + score, 10, 20);
 }
 
 function drawInput(){
   fill(255);
-  textSize(14);
+  textSize(18);
   text(input, 10, height - 20);
 }
 
@@ -68,9 +68,14 @@ function compareInput(){
       n--;
       wordsArray.splice(i, 1);
 
-    if (score % 5 == 0 && score != 0)
-      speed += 0.1;
+    if (score % 5 == 0 && score != 0){
+      intensity -= 0.25;
+      console.log("asd")  
+    }
     
+    } else if (wordsArray[i].x > width){
+      n--;
+      wordsArray.splice(i, 1);
     }
 
   }
@@ -78,6 +83,9 @@ function compareInput(){
 }
 
 function keyTyped(){
+
+  if (input == "Start typing words you see!")
+    input = "";
 
   if (keyCode != BACKSPACE)
     input += key;
@@ -101,19 +109,13 @@ function Word(val){
   this.value = val;
 
   this.draw = function(){
-    fill(150);
+    fill(190);
+    textSize(20);
     text(val, this.x, this.y);
   }
 
   this.update = function(){
     this.x += this.speed;
-
-
-    if (this.x > width){
-      n--;
-      this.splice(i, 1);
-    }
-
   }
 
 }
