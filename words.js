@@ -3,8 +3,8 @@
 var wordsArray = [];
 var score = 0;
 var input = "";
-var speed = 1;
-var intensity = 5;
+var speed = 0.5;
+var intensity = 2;
 var strings = [];
 var n = 0;
 
@@ -34,10 +34,16 @@ function draw(){
 
 
 function updateBoard(){
-  if (frameCount/60 % intensity == 0){
+
+  if ((frameCount / 60) % intensity == 0){
     n++;
     wordsArray[n] = new Word(random(strings));
   }
+
+  if (frameCount % 600 == 0){
+    intensity -= 0.2;
+  }
+
 }
 
 
@@ -61,6 +67,10 @@ function compareInput(){
       input = "";
       n--;
       wordsArray.splice(i, 1);
+
+    if (score % 5 == 0 && score != 0)
+      speed += 0.1;
+    
     }
 
   }
@@ -68,21 +78,25 @@ function compareInput(){
 }
 
 function keyTyped(){
-  input += key;
+
+  if (keyCode != BACKSPACE)
+    input += key;
+
 }
 
 function keyPressed(){
-  if (keyCode == BACKSPACE){
+
+  if (keyCode == BACKSPACE)
     input = input.slice(0, -1);
-  }
+  
 }
 
 
 function Word(val){
 
-  this.speed = 1;
+  this.speed = speed;
   this.x = 0;
-  this.y = random(height);
+  this.y = 50 + random(height - 100);
 
   this.value = val;
 
@@ -93,6 +107,13 @@ function Word(val){
 
   this.update = function(){
     this.x += this.speed;
+
+
+    if (this.x > width){
+      n--;
+      this.splice(i, 1);
+    }
+
   }
 
 }
