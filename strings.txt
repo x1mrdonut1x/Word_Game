@@ -1,7 +1,4 @@
-a
-aa
-aaa
-aachen
+chen
 aardvark
 aardvarks
 aaron

@@ -5,13 +5,16 @@ var score = 0;
 var input = "";
 var speed = 1;
 var intensity = 5;
-var strings;
+var strings = [];
+var n = 0;
 
+function preload() {
+  strings = loadStrings('strings.txt');
+}
 
 function setup(){
   createCanvas(720,720);
   
-  strings = loadStrings("strings.txt");
   wordsArray[0] = new Word(random(strings));
 }
 
@@ -25,7 +28,16 @@ function draw(){
 
   drawScore();
   drawInput();
+  updateBoard();
   compareInput();
+}
+
+
+function updateBoard(){
+  if (frameCount/60 % intensity == 0){
+    n++;
+    wordsArray[n] = new Word(random(strings));
+  }
 }
 
 
@@ -47,6 +59,7 @@ function compareInput(){
     if (input == wordsArray[i].value){
       score++;
       input = "";
+      n--;
       wordsArray.splice(i, 1);
     }
 
@@ -59,10 +72,9 @@ function keyTyped(){
 }
 
 function keyPressed(){
-
-  if (keyCode == BACKSPACE)
-    input = input.substr(0, input.length - 1);
-  
+  if (keyCode == BACKSPACE){
+    input = input.slice(0, -1);
+  }
 }
 
 
