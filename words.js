@@ -90,14 +90,14 @@ function keyTyped(){
   if (keyCode != BACKSPACE)
     input += key;
 
-}
-
-function keyPressed(){
-
   if (keyCode == BACKSPACE)
     input = input.slice(0, -1);
-  
+
+  if (keyCode == 32)
+    input = "";
+
 }
+
 
 
 function Word(val){
