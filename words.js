@@ -69,8 +69,12 @@ function compareInput(){
       wordsArray.splice(i, 1);
 
     if (score % 5 == 0 && score != 0){
-      intensity -= 0.25;
-      console.log("asd")  
+      if (intensity <= 0.75)
+        intensity -= 0.1;
+      else if (intensity < 0.4)
+      {}
+      else
+        intensity -= 0.25;
     }
     
     } else if (wordsArray[i].x > width){
