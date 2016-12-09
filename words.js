@@ -84,20 +84,26 @@ function compareInput(){
 
 function keyTyped(){
 
-  if (input == "Start typing words you see!")
-    input = "";
-
   if (keyCode != BACKSPACE)
     input += key;
 
-  if (keyCode == BACKSPACE)
+}
+
+function keyPressed(){
+
+  if (input == "Start typing words you see!")
+    input = "";
+
+  if (input == " ")
+    input = "";
+
+  if (keyCode == 8)
     input = input.slice(0, -1);
 
   if (keyCode == 32)
     input = "";
 
 }
-
 
 
 function Word(val){
